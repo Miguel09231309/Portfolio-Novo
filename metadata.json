@@ -1,0 +1,6 @@
+{
+  "name": "Unidade Polo — Portfólio Miguel Bespalhok",
+  "description": "Portfólio escolar e de desenvolvimento front-end do Colégio Unidade Polo e Miguel Bespalhok, reunindo projetos de HTML, JavaScript e Google AI dos três trimestres.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
