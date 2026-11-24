@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,15 +20,1889 @@
       type="image/png"
       href="https://miguel09231309.github.io/portfolio/simbolo.png"
     />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Outfit"', 'system-ui', 'sans-serif'],
+              sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      }
+      .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+
+    <!-- React 18 & Babel Standalone via CDN para execução direta no navegador -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body class="bg-[#060B16] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <div class="min-h-screen flex items-center justify-center text-slate-400 text-sm">
+        Carregando portfólio...
+      </div>
+    </div>
+
+    <script type="text/babel">
+      const { useState, useMemo, useEffect, useCallback } = React;
+
+      // ==========================================
+      // DADOS DO COLÉGIO, PERFIL E 34 LINKS REAIS
+      // ==========================================
+      const ASSET_BASE = 'https://miguel09231309.github.io/portfolio';
+
+      const SCHOOL_INFO = {
+        name: 'Colégio Unidade Polo',
+        city: 'Arapongas, PR',
+        address: 'Rua Pavão, 831 — Centro, Arapongas - PR, 86700-215',
+        year: 2026,
+        logoUrl: `${ASSET_BASE}/simbolo.png`,
+        mapsEmbedUrl:
+          'https://maps.google.com/maps?q=Rua%20Pavao%2C%20831%2C%20Centro%2C%20Arapongas%20-%20PR&t=&z=16&ie=UTF8&iwloc=&output=embed',
+        mapsExternalUrl:
+          'https://www.google.com/maps/search/?api=1&query=Rua+Pav%C3%A3o%2C+831+-+Centro%2C+Arapongas+-+PR%2C+86700-215',
+      };
+
+      const PROFILE_INFO = {
+        name: 'Miguel Bespalhok',
+        role: 'Desenvolvedor Front-End',
+        bio: 'Estudante e desenvolvedor apaixonado por criar interfaces modernas, acessíveis e funcionais. No Colégio Unidade Polo, aplico HTML, CSS, JavaScript e React para construir aplicações educacionais, jogos e sistemas com Inteligência Artificial.',
+        linkedinUrl:
+          'https://www.linkedin.com/in/miguel-bespalhok-5565802a1/?skipRedirect=true',
+        githubUrl: 'https://github.com/Miguel09231309',
+      };
+
+      const COURSES = [
+        {
+          id: 'tds',
+          title: 'Técnico em Desenvolvimento de Sistemas',
+          subtitle: 'Base completa de engenharia web e lógica de programação',
+          topics: [
+            'HTML, CSS e JavaScript moderno',
+            'Desenvolvimento Front-end e Back-end',
+            'Modelagem e Banco de Dados SQL',
+            'Versionamento de código com Git e GitHub',
+          ],
+        },
+        {
+          id: 'ia',
+          title: 'Inteligência Artificial e Dados',
+          subtitle: 'Fundamentos práticos de análise e automação inteligente',
+          topics: [
+            'Python e análise com Pandas',
+            'Machine Learning introdutório',
+            'Visualização e leitura de dados',
+            'Ética, segurança e privacidade digital',
+          ],
+        },
+        {
+          id: 'projetos',
+          title: 'Projetos Interdisciplinares',
+          subtitle: 'Aplicação prática conectada à comunidade escolar',
+          topics: [
+            'Feiras científicas e tecnológicas',
+            'Atividades extracurriculares de tecnologia',
+            'Orientação de carreira e portfólio',
+          ],
+        },
+      ];
+
+      const GALLERY_ITEMS = [
+        {
+          id: 'entrada',
+          title: 'Entrada Principal',
+          caption: 'Fachada e acesso principal do Colégio Unidade Polo em Arapongas.',
+          src: `${ASSET_BASE}/entrada.png`,
+          alt: 'Entrada do Colégio Unidade Polo',
+        },
+        {
+          id: 'quadras',
+          title: 'Quadras Esportivas',
+          caption: 'Espaço esportivo integrado para atividades físicas e eventos escolares.',
+          src: `${ASSET_BASE}/quadras_polo.jpeg`,
+          alt: 'Quadras esportivas do Colégio Unidade Polo',
+        },
+        {
+          id: 'secretaria',
+          title: 'Secretaria Escolar',
+          caption: 'Atendimento aos alunos, famílias e organização acadêmica.',
+          src: `${ASSET_BASE}/secretaria.png`,
+          alt: 'Secretaria do Colégio Unidade Polo',
+        },
+      ];
+
+      const PROJECTS = [
+        // 1º Trimestre — HTML (7)
+        {
+          id: 'q1-html-teste',
+          title: 'Teste HTML',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://alifer2211.github.io/teste.html/teste.html',
+          authors: 'Miguel & Alifer',
+          description: 'Primeiro experimento de estruturação de página HTML e elementos semânticos.',
+        },
+        {
+          id: 'q1-html-jogo',
+          title: 'Jogo',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://alifer2211.github.io/jogo/jogo.html',
+          authors: 'Miguel & Alifer',
+          description: 'Protótipo interativo de jogo web desenvolvido em parceria nas aulas iniciais.',
+        },
+        {
+          id: 'q1-html-2048',
+          title: 'Jogo 2048',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://alifer2211.github.io/jogo-2048/jogo.html',
+          authors: 'Miguel & Alifer',
+          description: 'Recriação do quebra-cabeça numérico 2048 diretamente no navegador.',
+        },
+        {
+          id: 'q1-html-gamma',
+          title: 'Todos do gamma',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/links/links.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Central de acesso reunindo links e materiais desenvolvidos com Gamma.',
+        },
+        {
+          id: 'q1-html-pacman',
+          title: 'Pac-Man',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/Pac-Man/pac-man.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Versão web inspirada no clássico arcade Pac-Man com movimentação em grade.',
+        },
+        {
+          id: 'q1-html-snack',
+          title: 'Snack expo',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/snack-expo/snack.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Página de demonstração e links para experimentos mobile com Expo Snack.',
+        },
+        {
+          id: 'q1-html-linksdocs',
+          title: 'Links docs',
+          trimester: 1,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/linksdocs/linkdocs.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Repositório organizado com referências e documentos de estudo da turma.',
+        },
+
+        // 1º Trimestre — JavaScript (16)
+        {
+          id: 'q1-js-teste',
+          title: 'Teste',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/teste.js/teste.js',
+          authors: 'Miguel & Alifer',
+          description: 'Primeiros testes com console.log, variáveis numéricas e operações aritméticas.',
+        },
+        {
+          id: 'q1-js-teste2',
+          title: 'Teste2',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/teste2.js/teste2.js',
+          authors: 'Miguel & Alifer',
+          description: 'Cálculo da área do triângulo utilizando variáveis de base e altura.',
+        },
+        {
+          id: 'q1-js-teste3',
+          title: 'Teste3',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/teste3.js/teste3.js',
+          authors: 'Miguel & Alifer',
+          description: 'Cálculo geométrico com multiplicação encadeada e exibição formatada.',
+        },
+        {
+          id: 'q1-js-carro',
+          title: 'Carro',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/carro.js/carro.js',
+          authors: 'Miguel & Alifer',
+          description: 'Cálculo de consumo e gasto de combustível usando template strings.',
+        },
+        {
+          id: 'q1-js-notas',
+          title: 'Notas',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/notas.js/notas.js',
+          authors: 'Miguel & Alifer',
+          description: 'Soma e média simples de quatro notas bimestrais de um aluno.',
+        },
+        {
+          id: 'q1-js-media',
+          title: 'Media',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/media/media_se.js',
+          authors: 'Miguel & Alifer',
+          description: 'Cálculo de média escolar com estruturas condicionais (if/else).',
+        },
+        {
+          id: 'q1-js-variaveis',
+          title: 'Variaveis',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://alifer2211.github.io/variaveis.js/variaveis.js',
+          authors: 'Miguel & Alifer',
+          description: 'Manipulação de variáveis let, reatribuições e operações combinadas.',
+        },
+        {
+          id: 'q1-js-brake',
+          title: 'Brake',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/brake_continue/brake_continue.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Simulação de controle de vagas de estacionamento com break e continue.',
+        },
+        {
+          id: 'q1-js-objeto',
+          title: 'Objeto',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/objeto/objeto.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Criação, leitura por ponto/colchetes e atualização de propriedades de objeto.',
+        },
+        {
+          id: 'q1-js-filtrar',
+          title: 'Filtrar',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/Filtrar/Filtrar.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Uso de métodos de array (find, filter, map, sort) em lista de usuários.',
+        },
+        {
+          id: 'q1-js-2js',
+          title: '2js',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'github-repo',
+          url: 'https://github.com/Miguel09231309/2js',
+          authors: 'Miguel Bespalhok',
+          description: 'Leitura de JSON externo, conversão com JSON.stringify e JSON.parse.',
+          rawFiles: [
+            {
+              name: 'leitura.js',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/2js/main/leitura.js',
+              fallbackContent:
+                'const dados = require("./2.cliente.json");\nconsole.log(dados);\nconsole.log(typeof dados);\nconst clienteEmString = JSON.stringify(dados);\nconsole.log(clienteEmString);\nconsole.log(typeof clienteEmString);\nconsole.log(clienteEmString.nome);\nconst objetoCliente = JSON.parse(clienteEmString);\nconsole.log(objetoCliente);',
+            },
+            {
+              name: 'cliente.json',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/2js/main/cliente.json',
+              isJson: true,
+              fallbackContent:
+                '{\n  "nome": "Joao",\n  "email": "joao@firma.com",\n  "telefone": ["11223344", "11922334453"],\n  "endereco": {\n    "rua": "R. Joseph Climber",\n    "numero": 404,\n    "apartamento": true,\n    "complemento": "ap 934"\n  }\n}',
+            },
+          ],
+        },
+        {
+          id: 'q1-js-4js',
+          title: '4js',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'github-repo',
+          url: 'https://github.com/Miguel09231309/4js',
+          authors: 'Miguel Bespalhok',
+          description:
+            'Série de 4 exercícios práticos sobre objetos, colchetes, substring e imutabilidade const.',
+          rawFiles: [
+            {
+              name: 'colchete.js',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/4js/main/colchete.js',
+            },
+            {
+              name: 'substring.js',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/4js/main/substring.js',
+            },
+            {
+              name: 'objet2.js',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/4js/main/objet2.js',
+            },
+            {
+              name: 'alterar.js',
+              rawUrl: 'https://raw.githubusercontent.com/Miguel09231309/4js/main/alterar.js',
+            },
+          ],
+        },
+        {
+          id: 'q1-js-conjunto',
+          title: 'Conjunto',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/conjuntonumero/conjuntonumero.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Função calcularMedia recebendo conjuntos numéricos dinâmicos como parâmetro.',
+        },
+        {
+          id: 'q1-js-exercicio',
+          title: 'Exercicio',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/exercicio/exercicio.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Iteração com laço for para somar notas em vetor e calcular a média final.',
+        },
+        {
+          id: 'q1-js-frutas',
+          title: 'Frutas',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/frutas/frutas.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Manipulação de listas com push, pop, shift, unshift e verificação de tamanho.',
+        },
+        {
+          id: 'q1-js-listalivros',
+          title: 'Lista livros',
+          trimester: 1,
+          category: 'JavaScript',
+          kind: 'js-raw',
+          url: 'https://miguel09231309.github.io/listalivros/listalivros.js',
+          authors: 'Miguel Bespalhok',
+          description: 'Catálogo de livros em array de objetos com análise e comparação de preços.',
+        },
+
+        // 2º Trimestre — HTML (2 links reais)
+        {
+          id: 'q2-html-locafacil',
+          title: 'LocaFacíl',
+          trimester: 2,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://locafacil-vb33.onrender.com/',
+          authors: 'Miguel Bespalhok',
+          description: 'Aplicação web para gerenciamento e divulgação de locações publicada no Render.',
+        },
+        {
+          id: 'q2-html-fuelsense',
+          title: 'FuelSense',
+          trimester: 2,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://benign-rota-flow-go.base44.app',
+          authors: 'Miguel Bespalhok',
+          description: 'Sistema web voltado ao controle inteligente de rotas e consumo de combustível.',
+        },
+
+        // 2º Trimestre — Google AI (5)
+        {
+          id: 'q2-ai-financas',
+          title: 'Easy Finanças',
+          trimester: 2,
+          category: 'Google AI',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/Financia/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Assistente e painel web de organização financeira pessoal com apoio de IA.',
+        },
+        {
+          id: 'q2-ai-petshop',
+          title: 'Pet-Shop',
+          trimester: 2,
+          category: 'Google AI',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/pet-shop/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Plataforma web de atendimento, serviços e produtos para pet shop.',
+        },
+        {
+          id: 'q2-ai-classedu',
+          title: 'Class-Edu',
+          trimester: 2,
+          category: 'Google AI',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/Class-Edu/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Ambiente educacional digital para organização de aulas, tarefas e turmas.',
+        },
+        {
+          id: 'q2-ai-codelingo',
+          title: 'CodeLingo',
+          trimester: 2,
+          category: 'Google AI',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/CodeLingo/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Experiência gamificada para aprendizado de programação inspirada em trilhas diárias.',
+        },
+        {
+          id: 'q2-ai-academia',
+          title: 'Academia',
+          trimester: 2,
+          category: 'Google AI',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/Academia/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Sistema web de acompanhamento de treinos, séries e evolução física.',
+        },
+
+        // 3º Trimestre — HTML (4)
+        {
+          id: 'q3-html-escola',
+          title: 'Escola',
+          trimester: 3,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/escola/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Portal institucional escolar com informações acadêmicas e navegação estruturada.',
+        },
+        {
+          id: 'q3-html-financia-feira',
+          title: 'Financia feira',
+          trimester: 3,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/financia-feira/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Ferramenta criada para controle de receitas e metas financeiras em feira escolar.',
+        },
+        {
+          id: 'q3-html-controle-vendas',
+          title: 'Controle de vendas',
+          trimester: 3,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://controle-vendas-v8nd.vercel.app/',
+          authors: 'Miguel Bespalhok',
+          description: 'Aplicação web publicada na Vercel para registro e acompanhamento de vendas.',
+        },
+        {
+          id: 'q3-html-biblioteca',
+          title: 'Biblioteca',
+          trimester: 3,
+          category: 'HTML',
+          kind: 'web',
+          url: 'https://miguel09231309.github.io/biblioteca/index.html',
+          authors: 'Miguel Bespalhok',
+          description: 'Sistema web para consulta de acervo, empréstimos e organização de biblioteca.',
+        },
+      ];
+
+      // ==========================================
+      // ÍCONES SVG INLINE (SEM DEPENDÊNCIA EXTERNA)
+      // ==========================================
+      function Icon({ children, className = 'w-4 h-4' }) {
+        return (
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+            aria-hidden="true"
+          >
+            {children}
+          </svg>
+        );
+      }
+
+      const IconArrowDown = ({ className }) => (
+        <Icon className={className}>
+          <path d="M12 5v14" />
+          <path d="m19 12-7 7-7-7" />
+        </Icon>
+      );
+
+      const IconExternalLink = ({ className }) => (
+        <Icon className={className}>
+          <path d="M15 3h6v6" />
+          <path d="M10 14 21 3" />
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        </Icon>
+      );
+
+      const IconMapPin = ({ className }) => (
+        <Icon className={className}>
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </Icon>
+      );
+
+      const IconSearch = ({ className }) => (
+        <Icon className={className}>
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </Icon>
+      );
+
+      const IconCode = ({ className }) => (
+        <Icon className={className}>
+          <path d="m18 16 4-4-4-4" />
+          <path d="m6 8-4 4 4 4" />
+          <path d="m14.5 4-5 16" />
+        </Icon>
+      );
+
+      const IconCopy = ({ className }) => (
+        <Icon className={className}>
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+        </Icon>
+      );
+
+      const IconCheck = ({ className }) => (
+        <Icon className={className}>
+          <path d="M20 6 9 17l-5-5" />
+        </Icon>
+      );
+
+      const IconRotateCcw = ({ className }) => (
+        <Icon className={className}>
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </Icon>
+      );
+
+      const IconPlay = ({ className }) => (
+        <Icon className={className}>
+          <polygon points="6 3 20 12 6 21 6 3" />
+        </Icon>
+      );
+
+      const IconTerminal = ({ className }) => (
+        <Icon className={className}>
+          <polyline points="4 17 10 11 4 5" />
+          <line x1="12" x2="20" y1="19" y2="19" />
+        </Icon>
+      );
+
+      const IconX = ({ className }) => (
+        <Icon className={className}>
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </Icon>
+      );
+
+      const IconMaximize = ({ className }) => (
+        <Icon className={className}>
+          <polyline points="15 3 21 3 21 9" />
+          <polyline points="9 21 3 21 3 15" />
+          <line x1="21" x2="14" y1="3" y2="10" />
+          <line x1="3" x2="10" y1="21" y2="14" />
+        </Icon>
+      );
+
+      const IconChevronLeft = ({ className }) => (
+        <Icon className={className}>
+          <path d="m15 18-6-6 6-6" />
+        </Icon>
+      );
+
+      const IconChevronRight = ({ className }) => (
+        <Icon className={className}>
+          <path d="m9 18 6-6-6-6" />
+        </Icon>
+      );
+
+      const IconImageOff = ({ className }) => (
+        <Icon className={className}>
+          <line x1="2" x2="22" y1="2" y2="22" />
+          <path d="M10.41 10.41a2 2 0 1 1-2.83-2.83" />
+          <line x1="13.5" x2="6" y1="13.5" y2="21" />
+          <line x1="18" x2="21" y1="12" y2="15" />
+          <path d="M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.05-.22 1.41-.59" />
+          <path d="M21 15V5a2 2 0 0 0-2-2H9" />
+        </Icon>
+      );
+
+      // ==========================================
+      // COMPONENTES
+      // ==========================================
+      function ResilientImage({
+        src,
+        alt,
+        fallbackLabel,
+        className = '',
+        loading = 'lazy',
+      }) {
+        const [hasError, setHasError] = useState(false);
+
+        if (hasError) {
+          return (
+            <div
+              role="img"
+              aria-label={alt}
+              className={`flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#0D182E] to-[#081020] text-slate-400 p-4 text-center ${className}`}
+            >
+              <IconImageOff className="w-6 h-6 text-cyan-400/70" />
+              <span className="text-xs font-medium text-slate-300">
+                {fallbackLabel || alt}
+              </span>
+            </div>
+          );
+        }
+
+        return (
+          <img
+            src={src}
+            alt={alt}
+            loading={loading}
+            referrerPolicy="no-referrer"
+            onError={() => setHasError(true)}
+            className={className}
+          />
+        );
+      }
+
+      function Navbar({ onNavigateSection }) {
+        return (
+          <header className="sticky top-0 z-40 border-b backdrop-blur-md bg-[#060B16]/90 border-slate-800/80">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4 sm:gap-8">
+              <a
+                href="#topo"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigateSection('topo');
+                }}
+                className="font-display text-lg font-bold tracking-tight text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400 rounded-sm"
+              >
+                {SCHOOL_INFO.name}
+              </a>
+
+              <nav
+                aria-label="Navegação principal"
+                className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300"
+              >
+                <a
+                  href="#topo"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateSection('topo');
+                  }}
+                  className="hover:text-white transition-colors whitespace-nowrap shrink-0 py-1"
+                >
+                  Colégio
+                </a>
+                <a
+                  href="#cursos"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateSection('cursos');
+                  }}
+                  className="hover:text-white transition-colors whitespace-nowrap shrink-0 py-1"
+                >
+                  Cursos
+                </a>
+                <a
+                  href="#campus"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateSection('campus');
+                  }}
+                  className="hover:text-white transition-colors whitespace-nowrap shrink-0 py-1"
+                >
+                  Campus e Mapa
+                </a>
+                <a
+                  href="#sobre"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateSection('sobre');
+                  }}
+                  className="hover:text-white transition-colors whitespace-nowrap shrink-0 py-1"
+                >
+                  Sobre Mim
+                </a>
+              </nav>
+
+              <div className="flex items-center shrink-0">
+                <a
+                  href="#projetos"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateSection('projetos');
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-colors whitespace-nowrap shrink-0 min-h-[40px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+                >
+                  <span>Projetos</span>
+                  <IconArrowDown className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </header>
+        );
+      }
+
+      function HeroSchoolSection({ onNavigateSection }) {
+        return (
+          <section id="topo" className="relative pt-10 pb-12 sm:pt-14 sm:pb-16">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+              <div className="bg-[#0D1526] border border-slate-800 rounded-2xl p-6 sm:p-10">
+                <div className="flex flex-col md:flex-row md:items-center gap-6 sm:gap-8">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-[#081020] border border-slate-700/80 shrink-0">
+                    <ResilientImage
+                      src={SCHOOL_INFO.logoUrl}
+                      alt={`Brasão do ${SCHOOL_INFO.name}`}
+                      fallbackLabel="Unidade Polo"
+                      loading="eager"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-medium text-cyan-400 mb-2">
+                      {SCHOOL_INFO.name} · {SCHOOL_INFO.city}
+                    </p>
+
+                    <h1
+                      className="font-display text-3xl sm:text-4xl lg:text-[2.85rem] font-extrabold text-white tracking-tight leading-[1.12] mb-4"
+                      style={{ textWrap: 'balance' }}
+                    >
+                      Bem-vindo aos Cursos do Colégio Unidade Polo
+                    </h1>
+
+                    <p className="text-slate-300 text-base leading-relaxed max-w-3xl">
+                      Conheça os cursos técnicos, projetos interdisciplinares, estrutura do campus e a
+                      localização oficial em Arapongas. Logo abaixo estão reunidos o meu perfil e todos os
+                      projetos desenvolvidos nos três trimestres.
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-3 mt-6">
+                      <button
+                        type="button"
+                        onClick={() => onNavigateSection('cursos')}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer whitespace-nowrap min-h-[44px]"
+                      >
+                        <span>Conhecer os Cursos</span>
+                        <IconArrowDown className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onNavigateSection('projetos')}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition-colors cursor-pointer whitespace-nowrap min-h-[44px]"
+                      >
+                        <span>Ir para os Links e Projetos</span>
+                      </button>
+                      <a
+                        href={SCHOOL_INFO.mapsExternalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 font-medium text-sm border border-slate-800 transition-colors whitespace-nowrap min-h-[44px]"
+                      >
+                        <IconMapPin className="w-4 h-4 text-cyan-400" />
+                        <span>{SCHOOL_INFO.city}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function CoursesAndCampusSection() {
+        const [lightboxIndex, setLightboxIndex] = useState(null);
+
+        useEffect(() => {
+          if (lightboxIndex === null) return;
+          const onKeyDown = (e) => {
+            if (e.key === 'Escape') setLightboxIndex(null);
+            if (e.key === 'ArrowRight') {
+              setLightboxIndex((prev) =>
+                prev === null ? null : (prev + 1) % GALLERY_ITEMS.length,
+              );
+            }
+            if (e.key === 'ArrowLeft') {
+              setLightboxIndex((prev) =>
+                prev === null
+                  ? null
+                  : (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length,
+              );
+            }
+          };
+          window.addEventListener('keydown', onKeyDown);
+          return () => window.removeEventListener('keydown', onKeyDown);
+        }, [lightboxIndex]);
+
+        const activePhoto = lightboxIndex !== null ? GALLERY_ITEMS[lightboxIndex] : null;
+
+        return (
+          <>
+            {/* Cursos */}
+            <section id="cursos" className="py-12 sm:py-16 border-t border-slate-800/70">
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+                <div className="mb-8">
+                  <p className="text-xs font-medium text-cyan-400 mb-1">
+                    Grade Técnica &amp; Formação
+                  </p>
+                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    Cursos do Colégio Unidade Polo
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {COURSES.map((course, idx) => (
+                    <div
+                      key={course.id}
+                      className="bg-[#0D1526] border border-slate-800 rounded-2xl p-6 flex flex-col justify-between"
+                    >
+                      <div>
+                        <p className="font-mono text-xs text-cyan-400 tabular-nums mb-2">
+                          0{idx + 1}. Formação
+                        </p>
+                        <h3 className="font-display text-lg font-bold text-white mb-2">
+                          {course.title}
+                        </h3>
+                        <p className="text-sm text-slate-400 mb-4">{course.subtitle}</p>
+                        <ul className="pl-5 list-disc space-y-2 text-sm text-slate-300">
+                          {course.topics.map((topic) => (
+                            <li key={topic}>{topic}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Galeria & Localização */}
+            <section id="campus" className="py-12 sm:py-16 border-t border-slate-800/70">
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-12">
+                <div>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+                    <div>
+                      <p className="text-xs font-medium text-cyan-400 mb-1">
+                        Estrutura Física
+                      </p>
+                      <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                        Galeria do Campus
+                      </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-400">
+                      Clique em qualquer foto para ampliar
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    {GALLERY_ITEMS.map((item, idx) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setLightboxIndex(idx)}
+                        className="group relative text-left bg-[#0D1526] border border-slate-800 hover:border-cyan-500/60 rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-cyan-400"
+                      >
+                        <div className="aspect-[4/3] w-full overflow-hidden bg-[#081020]">
+                          <ResilientImage
+                            src={item.src}
+                            alt={item.alt}
+                            fallbackLabel={item.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="p-4 flex items-start justify-between gap-3">
+                          <div>
+                            <h3 className="font-display text-base font-bold text-white">
+                              {item.title}
+                            </h3>
+                            <p className="text-xs text-slate-400 mt-0.5">
+                              {item.caption}
+                            </p>
+                          </div>
+                          <IconMaximize className="w-4 h-4 text-slate-400 group-hover:text-cyan-400 shrink-0 mt-0.5" />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Localização */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                  <div className="lg:col-span-5 bg-[#0D1526] border border-slate-800 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                      <p className="text-xs font-medium text-cyan-400 mb-1">
+                        Localização Oficial
+                      </p>
+                      <h2 className="font-display text-2xl font-bold text-white mb-3">
+                        Onde Estamos
+                      </h2>
+                      <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
+                        {SCHOOL_INFO.address}
+                      </p>
+
+                      <div className="pt-5 border-t border-slate-800 space-y-2">
+                        <p className="text-xs font-medium text-slate-400">
+                          Instituição de Ensino
+                        </p>
+                        <p className="text-sm text-slate-300">
+                          Atendimento presencial no centro de Arapongas para cursos técnicos, atividades
+                          interdisciplinares e comunidade escolar.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 mt-6 pt-5 border-t border-slate-800">
+                      <a
+                        href={SCHOOL_INFO.mapsExternalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold border border-slate-700 transition-colors whitespace-nowrap min-h-[44px]"
+                      >
+                        <IconMapPin className="w-4 h-4 text-cyan-400" />
+                        <span>Abrir no Google Maps</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-7 bg-[#0D1526] border border-slate-800 rounded-2xl overflow-hidden min-h-[300px]">
+                    <iframe
+                      title="Mapa de localização do Colégio Unidade Polo em Arapongas"
+                      src={SCHOOL_INFO.mapsEmbedUrl}
+                      className="w-full h-full min-h-[300px] border-0"
+                      loading="lazy"
+                      allowFullScreen
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Lightbox Modal */}
+            {activePhoto && lightboxIndex !== null && (
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-label={`Visualização ampliada: ${activePhoto.title}`}
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+                onClick={() => setLightboxIndex(null)}
+              >
+                <div
+                  className="relative w-full max-w-4xl bg-[#0B1221] border border-slate-700 rounded-2xl overflow-hidden shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800">
+                    <div>
+                      <h3 className="font-display text-lg font-bold text-white">
+                        {activePhoto.title}
+                      </h3>
+                      <p className="text-xs text-slate-400">{activePhoto.caption}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setLightboxIndex(null)}
+                      aria-label="Fechar foto"
+                      className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer min-h-[40px] min-w-[40px] flex items-center justify-center"
+                    >
+                      <IconX className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="relative bg-black flex items-center justify-center max-h-[72vh] overflow-hidden">
+                    <ResilientImage
+                      src={activePhoto.src}
+                      alt={activePhoto.alt}
+                      fallbackLabel={activePhoto.title}
+                      className="w-full max-h-[72vh] object-contain"
+                    />
+
+                    <button
+                      type="button"
+                      aria-label="Foto anterior"
+                      onClick={() =>
+                        setLightboxIndex(
+                          (lightboxIndex - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length,
+                        )
+                      }
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    >
+                      <IconChevronLeft className="w-5 h-5" />
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="Próxima foto"
+                      onClick={() =>
+                        setLightboxIndex((lightboxIndex + 1) % GALLERY_ITEMS.length)
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    >
+                      <IconChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        );
+      }
+
+      function AuthorProfileSection({ onExploreProjects }) {
+        const htmlCount = PROJECTS.filter((p) => p.category === 'HTML').length;
+        const jsCount = PROJECTS.filter((p) => p.category === 'JavaScript').length;
+        const aiCount = PROJECTS.filter((p) => p.category === 'Google AI').length;
+
+        return (
+          <section id="sobre" className="py-12 sm:py-16 border-t border-slate-800/70">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-6">
+              <div className="bg-[#0D1526] border border-slate-800 rounded-2xl p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                <div className="max-w-2xl">
+                  <p className="text-xs font-medium text-cyan-400 mb-1.5">
+                    {PROFILE_INFO.role} · {SCHOOL_INFO.name}
+                  </p>
+                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight mb-3">
+                    Sou {PROFILE_INFO.name}
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-4">
+                    {PROFILE_INFO.bio}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-400 font-medium">
+                    HTML5 <span className="text-slate-600 mx-1.5">·</span> CSS3{' '}
+                    <span className="text-slate-600 mx-1.5">·</span> JavaScript{' '}
+                    <span className="text-slate-600 mx-1.5">·</span> React{' '}
+                    <span className="text-slate-600 mx-1.5">·</span> Google AI
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                  <a
+                    href={PROFILE_INFO.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0A66C2] hover:bg-[#0958A8] text-white text-sm font-semibold transition-colors whitespace-nowrap min-h-[44px]"
+                  >
+                    <span>LinkedIn</span>
+                    <IconExternalLink className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={PROFILE_INFO.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold border border-slate-700 transition-colors whitespace-nowrap min-h-[44px]"
+                  >
+                    <span>GitHub</span>
+                    <IconExternalLink className="w-4 h-4" />
+                  </a>
+                  <button
+                    type="button"
+                    onClick={onExploreProjects}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap min-h-[44px]"
+                  >
+                    <span>Ver Links abaixo</span>
+                    <IconArrowDown className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-[#0D1526] border border-slate-800/90 rounded-xl px-5 py-4">
+                  <p className="font-mono text-2xl font-semibold text-white tabular-nums">
+                    {PROJECTS.length}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Total de links reais
+                  </p>
+                </div>
+                <div className="bg-[#0D1526] border border-slate-800/90 rounded-xl px-5 py-4">
+                  <p className="font-mono text-2xl font-semibold text-white tabular-nums">
+                    {htmlCount}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Projetos HTML e Web
+                  </p>
+                </div>
+                <div className="bg-[#0D1526] border border-slate-800/90 rounded-xl px-5 py-4">
+                  <p className="font-mono text-2xl font-semibold text-white tabular-nums">
+                    {jsCount}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Scripts JS executáveis no site
+                  </p>
+                </div>
+                <div className="bg-[#0D1526] border border-slate-800/90 rounded-xl px-5 py-4">
+                  <p className="font-mono text-2xl font-semibold text-cyan-400 tabular-nums">
+                    {aiCount}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Projetos com Google AI
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function ProjectsSection({ onOpenJsSandbox }) {
+        const [trimesterFilter, setTrimesterFilter] = useState('all');
+        const [categoryFilter, setCategoryFilter] = useState('all');
+        const [searchQuery, setSearchQuery] = useState('');
+        const [copiedId, setCopiedId] = useState(null);
+
+        const filteredProjects = useMemo(() => {
+          const q = searchQuery.trim().toLowerCase();
+          return PROJECTS.filter((item) => {
+            if (trimesterFilter !== 'all' && item.trimester !== trimesterFilter) {
+              return false;
+            }
+            if (categoryFilter !== 'all' && item.category !== categoryFilter) {
+              return false;
+            }
+            if (q) {
+              const hay = `${item.title} ${item.description} ${item.category} ${item.authors} ${item.url}`.toLowerCase();
+              return hay.includes(q);
+            }
+            return true;
+          });
+        }, [trimesterFilter, categoryFilter, searchQuery]);
+
+        const trimesterCounts = useMemo(
+          () => ({
+            all: PROJECTS.length,
+            1: PROJECTS.filter((p) => p.trimester === 1).length,
+            2: PROJECTS.filter((p) => p.trimester === 2).length,
+            3: PROJECTS.filter((p) => p.trimester === 3).length,
+          }),
+          [],
+        );
+
+        const categoryCounts = useMemo(() => {
+          const base =
+            trimesterFilter === 'all'
+              ? PROJECTS
+              : PROJECTS.filter((p) => p.trimester === trimesterFilter);
+          return {
+            all: base.length,
+            HTML: base.filter((p) => p.category === 'HTML').length,
+            JavaScript: base.filter((p) => p.category === 'JavaScript').length,
+            'Google AI': base.filter((p) => p.category === 'Google AI').length,
+          };
+        }, [trimesterFilter]);
+
+        const handleCopyUrl = async (project) => {
+          try {
+            await navigator.clipboard.writeText(project.url);
+            setCopiedId(project.id);
+            setTimeout(() => setCopiedId((curr) => (curr === project.id ? null : curr)), 1500);
+          } catch {
+            // Ignora caso área de transferência esteja bloqueada
+          }
+        };
+
+        const resetFilters = () => {
+          setTrimesterFilter('all');
+          setCategoryFilter('all');
+          setSearchQuery('');
+        };
+
+        return (
+          <section id="projetos" className="py-12 sm:py-16 border-t border-slate-800/70">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div>
+                  <p className="text-xs font-medium text-cyan-400 mb-1">
+                    Catálogo Unificado · Todos os Trimestres
+                  </p>
+                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    Projetos Desenvolvidos
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-400 mt-1 max-w-2xl">
+                    Todos os {PROJECTS.length} links reais de HTML, JavaScript e Google AI em um só lugar,
+                    com execução interativa de código JS direto no navegador.
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-400 font-mono tabular-nums shrink-0">
+                  Exibindo {filteredProjects.length} de {PROJECTS.length}
+                </p>
+              </div>
+
+              {/* Controles: Busca + Filtros */}
+              <div className="bg-[#0D1526] border border-slate-800 rounded-2xl p-4 sm:p-5 mb-8 space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                  <div className="lg:col-span-5 relative">
+                    <IconSearch className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      type="search"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Buscar projeto, tecnologia ou URL..."
+                      aria-label="Buscar projetos"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#070D1B] border border-slate-700/80 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                    />
+                  </div>
+
+                  <div className="lg:col-span-7 flex flex-wrap items-center gap-2">
+                    <div
+                      role="group"
+                      aria-label="Filtrar por trimestre"
+                      className="inline-flex flex-wrap items-center gap-1 p-1 rounded-xl bg-[#070D1B] border border-slate-800"
+                    >
+                      {['all', 1, 2, 3].map((tri) => {
+                        const active = trimesterFilter === tri;
+                        const label = tri === 'all' ? 'Todos' : `${tri}º Tri`;
+                        return (
+                          <button
+                            key={String(tri)}
+                            type="button"
+                            onClick={() => setTrimesterFilter(tri)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap tabular-nums min-h-[36px] ${
+                              active
+                                ? 'bg-cyan-500 text-slate-950'
+                                : 'text-slate-300 hover:text-white'
+                            }`}
+                          >
+                            {label} ({trimesterCounts[tri]})
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div
+                      role="group"
+                      aria-label="Filtrar por tecnologia"
+                      className="inline-flex flex-wrap items-center gap-1 p-1 rounded-xl bg-[#070D1B] border border-slate-800"
+                    >
+                      {['all', 'HTML', 'JavaScript', 'Google AI'].map((cat) => {
+                        const active = categoryFilter === cat;
+                        const label = cat === 'all' ? 'Todas' : cat;
+                        return (
+                          <button
+                            key={cat}
+                            type="button"
+                            onClick={() => setCategoryFilter(cat)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap tabular-nums min-h-[36px] ${
+                              active
+                                ? 'bg-slate-200 text-slate-950'
+                                : 'text-slate-300 hover:text-white'
+                            }`}
+                          >
+                            {label} ({categoryCounts[cat]})
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Grid de Resultados */}
+              {filteredProjects.length === 0 ? (
+                <div className="bg-[#0D1526] border border-slate-800 rounded-2xl p-10 text-center">
+                  <p className="font-display text-lg font-bold text-white mb-2">
+                    Nenhum projeto encontrado nesta combinação
+                  </p>
+                  <p className="text-sm text-slate-400 mb-5">
+                    Tente alterar o trimestre, a tecnologia ou limpar o termo de busca.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-semibold transition-colors cursor-pointer min-h-[40px]"
+                  >
+                    <IconRotateCcw className="w-4 h-4" />
+                    <span>Limpar filtros</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredProjects.map((project) => {
+                    const isJs =
+                      project.kind === 'js-raw' || project.kind === 'github-repo';
+                    const isCopied = copiedId === project.id;
+
+                    return (
+                      <article
+                        key={project.id}
+                        className="flex flex-col justify-between bg-[#0D1526] border border-slate-800/90 hover:border-cyan-500/50 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5"
+                      >
+                        <div>
+                          <p className="text-xs text-slate-400 font-medium mb-2">
+                            <span className="text-cyan-400">
+                              {project.trimester}º Trimestre
+                            </span>
+                            <span className="mx-1.5 text-slate-600" aria-hidden="true">
+                              ·
+                            </span>
+                            <span>{project.category}</span>
+                            {project.authors === 'Miguel & Alifer' && (
+                              <>
+                                <span className="mx-1.5 text-slate-600" aria-hidden="true">
+                                  ·
+                                </span>
+                                <span className="text-slate-300">Miguel &amp; Alifer</span>
+                              </>
+                            )}
+                          </p>
+
+                          <h3 className="font-display text-lg font-bold text-white tracking-tight mb-2">
+                            {project.title}
+                          </h3>
+
+                          <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                            {project.description}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p
+                            title={project.url}
+                            className="font-mono text-xs text-slate-500 truncate mb-4 pt-3 border-t border-slate-800/80"
+                          >
+                            {project.url.replace(/^https?:\/\//, '')}
+                          </p>
+
+                          <div className="flex items-center gap-2">
+                            {isJs ? (
+                              <button
+                                type="button"
+                                onClick={() => onOpenJsSandbox(project)}
+                                className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-xs sm:text-sm transition-colors cursor-pointer whitespace-nowrap min-h-[40px]"
+                              >
+                                <IconCode className="w-4 h-4 shrink-0" />
+                                <span>Ver e Executar JS</span>
+                              </button>
+                            ) : (
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-xs sm:text-sm transition-colors whitespace-nowrap min-h-[40px]"
+                              >
+                                <span>Abrir Projeto</span>
+                                <IconExternalLink className="w-3.5 h-3.5 shrink-0" />
+                              </a>
+                            )}
+
+                            {isJs && (
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`Abrir link original de ${project.title}`}
+                                title="Abrir link original"
+                                className="inline-flex items-center justify-center p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors min-h-[40px] min-w-[40px]"
+                              >
+                                <IconExternalLink className="w-4 h-4" />
+                              </a>
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={() => handleCopyUrl(project)}
+                              aria-label={`Copiar URL de ${project.title}`}
+                              title="Copiar link"
+                              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap min-h-[40px]"
+                            >
+                              {isCopied ? (
+                                <IconCheck className="w-3.5 h-3.5 text-emerald-400" />
+                              ) : (
+                                <IconCopy className="w-3.5 h-3.5" />
+                              )}
+                              <span>{isCopied ? 'Copiado!' : 'Copiar'}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      }
+
+      function formatValue(val) {
+        if (typeof val === 'string') return val;
+        if (
+          typeof val === 'number' ||
+          typeof val === 'boolean' ||
+          val === null ||
+          val === undefined
+        ) {
+          return String(val);
+        }
+        try {
+          return JSON.stringify(val, null, 2);
+        } catch {
+          return String(val);
+        }
+      }
+
+      function JsSandboxModal({ project, onClose }) {
+        const [files, setFiles] = useState({});
+        const [originalFiles, setOriginalFiles] = useState({});
+        const [activeFileName, setActiveFileName] = useState('');
+        const [loading, setLoading] = useState(false);
+        const [fetchNote, setFetchNote] = useState(null);
+        const [consoleOutput, setConsoleOutput] = useState([]);
+        const [copiedCode, setCopiedCode] = useState(false);
+
+        const loadSources = useCallback(async (target) => {
+          setLoading(true);
+          setFetchNote(null);
+          setConsoleOutput([]);
+
+          try {
+            if (target.rawFiles && target.rawFiles.length > 0) {
+              const loaded = {};
+              let usedFallback = false;
+
+              await Promise.all(
+                target.rawFiles.map(async (rf) => {
+                  try {
+                    const res = await fetch(rf.rawUrl);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    loaded[rf.name] = await res.text();
+                  } catch {
+                    if (rf.fallbackContent) {
+                      loaded[rf.name] = rf.fallbackContent;
+                      usedFallback = true;
+                    } else {
+                      loaded[rf.name] =
+                        `// Não foi possível carregar ${rf.name} no momento.\n// URL original: ${rf.rawUrl}`;
+                      usedFallback = true;
+                    }
+                  }
+                }),
+              );
+
+              setFiles(loaded);
+              setOriginalFiles(loaded);
+              setActiveFileName(target.rawFiles[0].name);
+              if (usedFallback) {
+                setFetchNote(
+                  'Alguns arquivos foram carregados da cópia local de segurança.',
+                );
+              }
+            } else {
+              const fileName = target.url.split('/').pop() || `${target.title}.js`;
+              try {
+                const res = await fetch(target.url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                setFiles({ [fileName]: text });
+                setOriginalFiles({ [fileName]: text });
+                setActiveFileName(fileName);
+              } catch {
+                const fallback =
+                  target.fallbackCode ||
+                  `// Código indisponível offline.\n// Acesse o arquivo original em: ${target.url}`;
+                setFiles({ [fileName]: fallback });
+                setOriginalFiles({ [fileName]: fallback });
+                setActiveFileName(fileName);
+                setFetchNote(
+                  'Falha de rede ao buscar o arquivo remoto; exibindo modo de segurança.',
+                );
+              }
+            }
+          } finally {
+            setLoading(false);
+          }
+        }, []);
+
+        useEffect(() => {
+          if (!project) return;
+          loadSources(project);
+        }, [project, loadSources]);
+
+        useEffect(() => {
+          if (!project) return;
+          const onKeyDown = (e) => {
+            if (e.key === 'Escape') onClose();
+          };
+          window.addEventListener('keydown', onKeyDown);
+          return () => window.removeEventListener('keydown', onKeyDown);
+        }, [project, onClose]);
+
+        if (!project) return null;
+
+        const activeCode = files[activeFileName] ?? '';
+        const isJsonFile = activeFileName.endsWith('.json');
+
+        const runCode = () => {
+          const logs = [];
+
+          if (isJsonFile) {
+            try {
+              const parsed = JSON.parse(activeCode);
+              logs.push({
+                level: 'info',
+                text: 'JSON válido. Estrutura interpretada com sucesso:',
+              });
+              logs.push({
+                level: 'log',
+                text: JSON.stringify(parsed, null, 2),
+              });
+            } catch (err) {
+              logs.push({
+                level: 'error',
+                text: `Erro ao validar JSON: ${err instanceof Error ? err.message : String(err)}`,
+              });
+            }
+            setConsoleOutput(logs);
+            return;
+          }
+
+          const pushLog = (level, args) => {
+            logs.push({
+              level,
+              text: args.map(formatValue).join(' '),
+            });
+          };
+
+          const virtualConsole = {
+            log: (...args) => pushLog('log', args),
+            info: (...args) => pushLog('info', args),
+            warn: (...args) => pushLog('warn', args),
+            error: (...args) => pushLog('error', args),
+            table: (data) => pushLog('log', [data]),
+            time: () => {},
+            timeLog: (...args) => pushLog('info', args),
+            timeEnd: (...args) => pushLog('info', args),
+          };
+
+          const virtualRequire = (modulePath) => {
+            const normalized = modulePath.replace(/^\.\//, '').toLowerCase();
+            if (normalized.includes('cliente.json') && files['cliente.json']) {
+              return JSON.parse(files['cliente.json']);
+            }
+            const matchedKey = Object.keys(files).find(
+              (key) => key.toLowerCase() === normalized,
+            );
+            if (matchedKey && matchedKey.endsWith('.json')) {
+              return JSON.parse(files[matchedKey]);
+            }
+            throw new Error(`Módulo não disponível no sandbox: ${modulePath}`);
+          };
+
+          try {
+            const runner = new Function('console', 'require', `"use strict";\n${activeCode}`);
+            runner(virtualConsole, virtualRequire);
+            if (logs.length === 0) {
+              logs.push({
+                level: 'info',
+                text: 'Script executado sem erros (nenhuma saída em console.log).',
+              });
+            }
+          } catch (err) {
+            logs.push({
+              level: 'error',
+              text: err instanceof Error ? `${err.name}: ${err.message}` : String(err),
+            });
+          }
+
+          setConsoleOutput(logs);
+        };
+
+        const handleCopyCode = async () => {
+          try {
+            await navigator.clipboard.writeText(activeCode);
+            setCopiedCode(true);
+            setTimeout(() => setCopiedCode(false), 1500);
+          } catch {
+            // Ignora
+          }
+        };
+
+        const handleReset = () => {
+          setFiles(originalFiles);
+          setConsoleOutput([]);
+        };
+
+        return (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sandbox-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm"
+            onClick={onClose}
+          >
+            <div
+              className="w-full max-w-5xl max-h-[92vh] flex flex-col bg-[#0B1221] border border-slate-700/90 rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4 px-5 py-4 border-b border-slate-800 bg-[#080E1A]">
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-cyan-400">
+                    {project.trimester}º Trimestre · {project.category} · {project.authors}
+                  </p>
+                  <h3
+                    id="sandbox-modal-title"
+                    className="font-display text-xl font-bold text-white truncate mt-0.5"
+                  >
+                    {project.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    {project.description}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Fechar visualizador de código"
+                  className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center"
+                >
+                  <IconX className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b border-slate-800 bg-[#0D1526]">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {Object.keys(files).map((fileName) => (
+                    <button
+                      key={fileName}
+                      type="button"
+                      onClick={() => {
+                        setActiveFileName(fileName);
+                        setConsoleOutput([]);
+                      }}
+                      className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-colors cursor-pointer whitespace-nowrap ${
+                        activeFileName === fileName
+                          ? 'bg-cyan-500 text-slate-950'
+                          : 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700'
+                      }`}
+                    >
+                      {fileName}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={runCode}
+                    disabled={loading}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-semibold text-xs transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
+                  >
+                    <IconPlay className="w-3.5 h-3.5" />
+                    <span>{isJsonFile ? 'Validar JSON' : 'Executar Script'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
+                  >
+                    <IconRotateCcw className="w-3.5 h-3.5" />
+                    <span>Restaurar</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyCode}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs transition-colors cursor-pointer whitespace-nowrap min-h-[36px]"
+                  >
+                    {copiedCode ? (
+                      <IconCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    ) : (
+                      <IconCopy className="w-3.5 h-3.5" />
+                    )}
+                    <span>{copiedCode ? 'Copiado!' : 'Copiar'}</span>
+                  </button>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 font-medium text-xs transition-colors whitespace-nowrap min-h-[36px]"
+                  >
+                    <span>Link Original</span>
+                    <IconExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {fetchNote && (
+                <div className="px-5 py-2 bg-amber-950/50 border-b border-amber-800/50 text-amber-200 text-xs">
+                  {fetchNote}
+                </div>
+              )}
+
+              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-800 overflow-y-auto">
+                <div className="flex flex-col min-h-[260px]">
+                  <div className="px-4 py-2 text-xs font-medium text-slate-400 bg-[#080E1A] border-b border-slate-800 flex items-center justify-between">
+                    <span>Código-fonte editável</span>
+                    <span className="font-mono tabular-nums">
+                      {activeCode.split('\n').length} linhas
+                    </span>
+                  </div>
+                  {loading ? (
+                    <div className="flex-1 flex items-center justify-center p-8 text-sm text-slate-400">
+                      Carregando arquivo original...
+                    </div>
+                  ) : (
+                    <textarea
+                      aria-label="Editor de código JavaScript"
+                      value={activeCode}
+                      onChange={(e) =>
+                        setFiles((prev) => ({ ...prev, [activeFileName]: e.target.value }))
+                      }
+                      spellCheck={false}
+                      className="flex-1 w-full min-h-[240px] lg:min-h-[340px] p-4 bg-[#060A14] text-slate-100 font-mono text-xs sm:text-sm leading-relaxed resize-none focus:outline-none"
+                    />
+                  )}
+                </div>
+
+                <div className="flex flex-col min-h-[220px] bg-[#070B14]">
+                  <div className="px-4 py-2 text-xs font-medium text-slate-400 bg-[#080E1A] border-b border-slate-800 flex items-center gap-2">
+                    <IconTerminal className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Saída do Console</span>
+                  </div>
+                  <div className="flex-1 p-4 overflow-y-auto font-mono text-xs sm:text-sm space-y-2">
+                    {consoleOutput.length === 0 ? (
+                      <p className="text-slate-500">
+                        Clique em &ldquo;{isJsonFile ? 'Validar JSON' : 'Executar Script'}&rdquo; acima para rodar o código e ver o resultado aqui.
+                      </p>
+                    ) : (
+                      consoleOutput.map((entry, idx) => (
+                        <pre
+                          key={idx}
+                          className={`whitespace-pre-wrap break-words rounded-lg px-3 py-2 border ${
+                            entry.level === 'error'
+                              ? 'bg-red-950/40 border-red-800/60 text-red-300'
+                              : entry.level === 'warn'
+                              ? 'bg-amber-950/40 border-amber-800/60 text-amber-200'
+                              : entry.level === 'info'
+                              ? 'bg-cyan-950/30 border-cyan-900/50 text-cyan-200'
+                              : 'bg-slate-900/80 border-slate-800 text-emerald-300'
+                          }`}
+                        >
+                          {entry.text}
+                        </pre>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function App() {
+        const [sandboxProject, setSandboxProject] = useState(null);
+
+        const handleNavigateSection = (sectionId) => {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        return (
+          <div className="min-h-screen flex flex-col bg-[#060B16] text-slate-100">
+            <Navbar onNavigateSection={handleNavigateSection} />
+
+            <main className="flex-1">
+              {/* 1. Tudo do Colégio Unidade Polo primeiro */}
+              <HeroSchoolSection onNavigateSection={handleNavigateSection} />
+              <CoursesAndCampusSection />
+
+              {/* 2. Depois do colégio: Informação do Miguel + Todos os 34 Links */}
+              <AuthorProfileSection
+                onExploreProjects={() => handleNavigateSection('projetos')}
+              />
+              <ProjectsSection
+                onOpenJsSandbox={(project) => setSandboxProject(project)}
+              />
+            </main>
+
+            <footer className="border-t border-slate-800/80 bg-[#050912]">
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-400">
+                <p>
+                  {SCHOOL_INFO.name} — {SCHOOL_INFO.city} · © {SCHOOL_INFO.year}
+                </p>
+                <div className="flex items-center gap-4">
+                  <a
+                    href={PROFILE_INFO.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    GitHub
+                  </a>
+                  <span className="text-slate-700" aria-hidden="true">
+                    ·
+                  </span>
+                  <a
+                    href={PROFILE_INFO.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </footer>
+
+            <JsSandboxModal
+              project={sandboxProject}
+              onClose={() => setSandboxProject(null)}
+            />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
   </body>
 </html>
